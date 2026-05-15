@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Harbour &amp; Hull Marine Detailing – Professional Boat Care</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #0b1e3d;
+    --navy-deep: #07152b;
+    --navy-mid: #142a50;
+    --gold: #c9a84c;
+    --gold-light: #e8c872;
+    --gold-pale: #f5e9c8;
+    --white: #ffffff;
+    --cream: #f9f6f0;
+    --text-dark: #1a1a2e;
+    --text-mid: #4a5568;
+    --text-light: #718096;
+    --border: rgba(201,168,76,0.25);
+    --section-pad: clamp(60px, 8vw, 110px);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    color: var(--text-dark);
+    background: var(--cream);
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4 { font-family: 'Playfair Display', serif; }
+
+  /* ─── NAV ─── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 5vw;
+    background: rgba(7, 21, 43, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(201,168,76,0.15);
+    transition: background 0.3s;
+  }
+  .nav-logo {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.35rem;
+    color: var(--gold);
+    letter-spacing: 0.04em;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--white); font-weight: 400; font-style: italic; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    color: rgba(255,255,255,0.75);
+    text-decoration: none;
+    font-size: 0.875rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--gold); }
+  .nav-cta {
+    background: var(--gold);
+    color: var(--navy-deep) !important;
+    padding: 9px 22px;
+    border-radius: 2px;
+    font-weight: 600 !important;
+  }
+  .nav-cta:hover { background: var(--gold-light); color: var(--navy-deep) !important; }
+
+  .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; }
+  .hamburger span { width: 24px; height: 2px; background: var(--white); transition: 0.3s; }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    background:
+      linear-gradient(170deg, rgba(7,21,43,0.72) 0%, rgba(11,30,61,0.55) 55%, rgba(20,42,80,0.35) 100%),
+      url('https://images.unsplash.com/photo-1559827260-dc66d52bef19?w=1920&q=90') center/cover no-repeat;
+    display: flex; align-items: center;
+    padding: 0 5vw;
+    position: relative;
+  }
+  #hero::after {
+    content: '';
+    position: absolute; bottom: 0; left: 0; right: 0;
+    height: 120px;
+    background: linear-gradient(to bottom, transparent, var(--cream));
+  }
+  .hero-content { max-width: 680px; padding-top: 80px; position: relative; z-index: 1; }
+  .hero-badge {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(201,168,76,0.15);
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+    font-size: 0.75rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 2px;
+    margin-bottom: 28px;
+  }
+  .hero-badge::before { content: '◆'; font-size: 0.5rem; }
+  .hero-content h1 {
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    color: var(--white);
+    line-height: 1.1;
+    margin-bottom: 22px;
+  }
+  .hero-content h1 em { color: var(--gold); font-style: italic; }
+  .hero-content p {
+    color: rgba(255,255,255,0.72);
+    font-size: 1.1rem;
+    line-height: 1.7;
+    max-width: 500px;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+  .hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+  .btn-primary {
+    background: var(--gold);
+    color: var(--navy-deep);
+    padding: 15px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 600;
+    font-size: 0.9rem;
+    letter-spacing: 0.05em;
+    border: none; cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 2px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
+  .btn-outline {
+    background: transparent;
+    color: var(--white);
+    border: 1px solid rgba(255,255,255,0.45);
+    padding: 15px 36px;
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 500;
+    font-size: 0.9rem;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 2px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .btn-outline:hover { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+
+  .hero-stats {
+    margin-top: 60px;
+    display: flex; gap: 40px;
+    padding-top: 30px;
+    border-top: 1px solid rgba(255,255,255,0.12);
+  }
+  .stat-val {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    color: var(--gold);
+    display: block;
+  }
+  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+
+  /* ─── SECTIONS ─── */
+  section { padding: var(--section-pad) 5vw; }
+
+  .section-label {
+    display: inline-block;
+    font-size: 0.72rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-size: clamp(2rem, 4vw, 3rem);
+    color: var(--navy);
+    line-height: 1.2;
+    margin-bottom: 16px;
+  }
+  .section-sub {
+    font-size: 1.05rem;
+    color: var(--text-mid);
+    line-height: 1.7;
+    max-width: 560px;
+    font-weight: 300;
+  }
+
+  /* ─── SERVICES ─── */
+  #services { background: var(--white); }
+  .services-header { text-align: center; margin-bottom: 60px; }
+  .services-header .section-sub { margin: 0 auto; }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2px;
+    background: var(--border);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    border-radius: 4px;
+  }
+  .service-card {
+    background: var(--white);
+    padding: 40px 36px;
+    transition: background 0.25s;
+    position: relative;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; top: 0; left: 36px;
+    width: 36px; height: 3px;
+    background: var(--gold);
+  }
+  .service-card:hover { background: var(--cream); }
+  .service-icon { font-size: 2rem; margin-bottom: 18px; }
+  .service-card h3 { font-size: 1.35rem; color: var(--navy); margin-bottom: 10px; }
+  .service-card p { font-size: 0.92rem; color: var(--text-mid); line-height: 1.65; }
+  .service-card .price-tag {
+    display: inline-block;
+    margin-top: 18px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--gold);
+    letter-spacing: 0.05em;
+  }
+  .service-card .price-tag span { color: var(--text-light); font-weight: 400; }
+
+  /* ─── PROCESS ─── */
+  #process { background: var(--navy-deep); }
+  #process .section-title { color: var(--white); }
+  #process .section-sub { color: rgba(255,255,255,0.55); }
+  .process-wrap { display: flex; gap: 0; flex-wrap: wrap; margin-top: 60px; }
+  .process-step {
+    flex: 1; min-width: 200px;
+    padding: 36px 32px;
+    border-right: 1px solid rgba(201,168,76,0.15);
+    position: relative;
+  }
+  .process-step:last-child { border-right: none; }
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    color: rgba(201,168,76,0.15);
+    line-height: 1;
+    margin-bottom: 16px;
+    display: block;
+  }
+  .process-step h3 { font-size: 1.1rem; color: var(--gold); margin-bottom: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; letter-spacing: 0.04em; }
+  .process-step p { font-size: 0.88rem; color: rgba(255,255,255,0.5); line-height: 1.65; }
+
+  /* ─── QUOTE ─── */
+  #quote { background: var(--cream); }
+  .quote-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 60px;
+    align-items: start;
+    margin-top: 50px;
+  }
+  .quote-info { padding-top: 8px; }
+  .quote-info h3 { font-size: 1.3rem; color: var(--navy); margin-bottom: 12px; }
+  .quote-info p { font-size: 0.92rem; color: var(--text-mid); line-height: 1.7; margin-bottom: 20px; }
+  .quote-guarantee {
+    display: flex; align-items: flex-start; gap: 12px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.25);
+    border-radius: 4px;
+    padding: 16px;
+    margin-top: 20px;
+  }
+  .quote-guarantee .icon { font-size: 1.4rem; flex-shrink: 0; }
+  .quote-guarantee p { font-size: 0.85rem; color: var(--text-mid); margin-bottom: 0; }
+  .quote-guarantee strong { color: var(--navy); }
+
+  .quote-card {
+    background: var(--white);
+    border: 1px solid rgba(201,168,76,0.2);
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 40px rgba(11,30,61,0.08);
+  }
+  .quote-card-header {
+    background: var(--navy);
+    padding: 22px 28px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .quote-card-header h3 { color: var(--white); font-size: 1.1rem; font-family: 'DM Sans', sans-serif; font-weight: 600; }
+  .quote-card-header .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+
+  .quote-body { padding: 28px; }
+
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-group { margin-bottom: 16px; }
+  .form-group label {
+    display: block;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 6px;
+  }
+  .form-group select,
+  .form-group input {
+    width: 100%;
+    padding: 11px 14px;
+    border: 1px solid rgba(11,30,61,0.15);
+    border-radius: 3px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--text-dark);
+    background: var(--cream);
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%234a5568' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 12px center;
+    cursor: pointer;
+    transition: border-color 0.2s;
+  }
+  .form-group input { background-image: none; cursor: text; }
+  .form-group select:focus, .form-group input:focus {
+    outline: none;
+    border-color: var(--gold);
+    background-color: var(--white);
+  }
+
+  .addons-section { margin: 20px 0; }
+  .addons-label {
+    font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--text-mid);
+    margin-bottom: 10px; display: block;
+  }
+  .addons-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .addon-item {
+    display: flex; align-items: center; gap: 8px;
+    padding: 9px 12px;
+    border: 1px solid rgba(11,30,61,0.1);
+    border-radius: 3px;
+    cursor: pointer;
+    transition: border-color 0.2s, background 0.2s;
+    user-select: none;
+  }
+  .addon-item:hover { border-color: var(--gold); background: rgba(201,168,76,0.04); }
+  .addon-item.selected { border-color: var(--gold); background: rgba(201,168,76,0.08); }
+  .addon-item input[type="checkbox"] { accent-color: var(--gold); width: 15px; height: 15px; cursor: pointer; }
+  .addon-item .addon-name { font-size: 0.82rem; font-weight: 500; color: var(--text-dark); flex: 1; }
+  .addon-item .addon-price { font-size: 0.78rem; color: var(--gold); font-weight: 600; }
+
+  .divider { border: none; border-top: 1px solid rgba(11,30,61,0.1); margin: 20px 0; }
+
+  .quote-result { background: var(--navy); border-radius: 4px; padding: 20px 22px; }
+  .quote-result-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+  .quote-result-row:last-child { margin-bottom: 0; }
+  .qr-label { font-size: 0.82rem; color: rgba(255,255,255,0.55); }
+  .qr-val { font-size: 0.88rem; color: rgba(255,255,255,0.8); font-weight: 500; }
+  .qr-total-label { font-size: 0.9rem; font-weight: 600; color: var(--white); }
+  .qr-total-val { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--gold); }
+  .qr-divider { border: none; border-top: 1px solid rgba(255,255,255,0.1); margin: 12px 0; }
+  .quote-note { font-size: 0.75rem; color: rgba(255,255,255,0.35); margin-top: 10px; text-align: center; }
+
+  .quote-submit {
+    width: 100%; margin-top: 16px;
+    background: var(--gold);
+    color: var(--navy-deep);
+    border: none; cursor: pointer;
+    padding: 14px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    border-radius: 3px;
+    transition: background 0.2s, transform 0.15s;
+  }
+  .quote-submit:hover { background: var(--gold-light); transform: translateY(-1px); }
+
+  /* Modal */
+  .modal-overlay {
+    display: none; position: fixed; inset: 0; z-index: 2000;
+    background: rgba(7,21,43,0.75); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center; padding: 20px;
+  }
+  .modal-overlay.active { display: flex; }
+  .modal {
+    background: var(--white); border-radius: 8px;
+    padding: 40px; max-width: 480px; width: 100%;
+    text-align: center; position: relative;
+  }
+  .modal-icon { font-size: 3rem; margin-bottom: 16px; }
+  .modal h3 { font-size: 1.5rem; color: var(--navy); margin-bottom: 10px; }
+  .modal p { color: var(--text-mid); font-size: 0.95rem; line-height: 1.65; margin-bottom: 24px; }
+  .modal-close {
+    position: absolute; top: 16px; right: 16px;
+    background: none; border: none; font-size: 1.4rem;
+    cursor: pointer; color: var(--text-light);
+  }
+  .modal-close:hover { color: var(--text-dark); }
+  .modal-quote-box {
+    background: var(--cream); border-radius: 4px; padding: 20px;
+    margin-bottom: 24px; text-align: left;
+  }
+  .modal-quote-box .mq-row { display: flex; justify-content: space-between; font-size: 0.85rem; padding: 4px 0; }
+  .modal-quote-box .mq-total {
+    border-top: 1px solid rgba(11,30,61,0.1);
+    margin-top: 8px; padding-top: 12px;
+    font-weight: 700; font-size: 1rem;
+    color: var(--navy);
+  }
+  .modal-quote-box .mq-gold { color: var(--gold); font-weight: 700; }
+
+  /* ─── ABOUT ─── */
+  #about {
+    background: var(--white);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .about-img-wrap { position: relative; }
+  .about-img-wrap img { width: 100%; border-radius: 4px; display: block; }
+  .about-badge-float {
+    position: absolute; bottom: -24px; right: -24px;
+    background: var(--navy);
+    border: 3px solid var(--gold);
+    color: var(--white);
+    padding: 22px 26px;
+    border-radius: 4px;
+    text-align: center;
+  }
+  .about-badge-float .big { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--gold); display: block; }
+  .about-badge-float small { font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: rgba(255,255,255,0.6); }
+  .about-content { padding-top: 12px; }
+  .check-list { list-style: none; margin-top: 24px; }
+  .check-list li {
+    display: flex; align-items: flex-start; gap: 10px;
+    font-size: 0.92rem; color: var(--text-mid);
+    margin-bottom: 12px; line-height: 1.5;
+  }
+  .check-list li::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
+
+  /* ─── TESTIMONIALS ─── */
+  #testimonials { background: var(--cream); }
+  .testimonials-header { text-align: center; margin-bottom: 50px; }
+  .testimonials-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px; }
+  .testimonial-card {
+    background: var(--white);
+    border: 1px solid rgba(201,168,76,0.18);
+    border-radius: 6px;
+    padding: 30px 28px;
+    position: relative;
+  }
+  .testimonial-card::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 5rem;
+    color: rgba(201,168,76,0.15);
+    position: absolute; top: 10px; left: 22px;
+    line-height: 1;
+  }
+  .stars { color: var(--gold); font-size: 0.85rem; margin-bottom: 14px; }
+  .testimonial-card p { font-size: 0.92rem; color: var(--text-mid); line-height: 1.7; font-style: italic; margin-bottom: 20px; }
+  .testimonial-author { display: flex; align-items: center; gap: 12px; }
+  .author-avatar {
+    width: 40px; height: 40px; border-radius: 50%;
+    background: var(--navy); display: flex; align-items: center; justify-content: center;
+    color: var(--gold); font-weight: 700; font-size: 0.85rem;
+    flex-shrink: 0;
+  }
+  .author-name { font-weight: 600; font-size: 0.88rem; color: var(--navy); }
+  .author-boat { font-size: 0.78rem; color: var(--text-light); }
+
+  /* ─── CONTACT ─── */
+  #contact { background: var(--navy); }
+  #contact .section-title { color: var(--white); }
+  #contact .section-sub { color: rgba(255,255,255,0.55); }
+  .contact-grid {
+    display: grid; grid-template-columns: 1fr 1.4fr;
+    gap: 60px; margin-top: 50px; align-items: start;
+  }
+  .contact-info-item { display: flex; gap: 16px; margin-bottom: 28px; }
+  .ci-icon {
+    width: 42px; height: 42px; border-radius: 3px;
+    background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.25);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 1.1rem; flex-shrink: 0;
+  }
+  .ci-label { font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; font-weight: 600; }
+  .ci-val { font-size: 0.92rem; color: rgba(255,255,255,0.75); }
+
+  .contact-form { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.08); border-radius: 6px; padding: 32px; }
+  .contact-form .form-group label { color: rgba(255,255,255,0.5); }
+  .contact-form .form-group input,
+  .contact-form .form-group textarea,
+  .contact-form .form-group select {
+    background: rgba(255,255,255,0.06);
+    border-color: rgba(255,255,255,0.12);
+    color: var(--white);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23ffffff' stroke-opacity='0.4' stroke-width='1.5' fill='none' stroke-linecap='round'/%3E%3C/svg%3E");
+  }
+  .contact-form .form-group input:focus,
+  .contact-form .form-group textarea:focus { background: rgba(255,255,255,0.1); border-color: var(--gold); outline: none; }
+  .contact-form .form-group textarea { background-image: none; resize: vertical; min-height: 110px; }
+  .quote-body .form-group textarea {
+    width: 100%; padding: 11px 14px;
+    border: 1px solid rgba(11,30,61,0.15); border-radius: 3px;
+    font-family: 'DM Sans', sans-serif; font-size: 0.9rem;
+    color: var(--text-dark); background: var(--cream);
+    resize: vertical; min-height: 90px; background-image: none;
+    transition: border-color 0.2s;
+  }
+  .quote-body .form-group textarea:focus { outline: none; border-color: var(--gold); background-color: var(--white); }
+  .contact-form .form-group input::placeholder,
+  .contact-form .form-group textarea::placeholder { color: rgba(255,255,255,0.25); }
+  .contact-form .form-group select option { background: var(--navy-deep); }
+
+  /* ─── FOOTER ─── */
+  footer {
+    background: var(--navy-deep);
+    padding: 30px 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    border-top: 1px solid rgba(201,168,76,0.1);
+    flex-wrap: wrap; gap: 12px;
+  }
+  .footer-logo { font-family: 'Playfair Display', serif; font-size: 1.1rem; color: var(--gold); }
+  footer p { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 900px) {
+    .quote-wrap, #about, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .about-badge-float { bottom: 10px; right: 10px; }
+    .form-row { grid-template-columns: 1fr; }
+    .hero-stats { gap: 24px; flex-wrap: wrap; }
+    .process-wrap { flex-direction: column; }
+    .process-step { border-right: none; border-bottom: 1px solid rgba(201,168,76,0.15); }
+    .process-step:last-child { border-bottom: none; }
+  }
+  @media (max-width: 700px) {
+    .nav-links { display: none; flex-direction: column; position: fixed; top: 65px; left: 0; right: 0; background: var(--navy-deep); padding: 24px; gap: 20px; }
+    .nav-links.open { display: flex; }
+    .hamburger { display: flex; }
+    .addons-grid { grid-template-columns: 1fr; }
+    .hero-content h1 { font-size: 2.4rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a href="#hero" class="nav-logo">Harbour &amp; Hull <span>Marine</span></a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#quote">Get a Quote</a></li>
+    <li><a href="#testimonials">Reviews</a></li>
+    <li><a href="#contact" class="nav-cta">Contact Us</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleNav()" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-content">
+    <div class="hero-badge">Local Marine Detailing</div>
+    <h1>Your Vessel<br>Deserves<br><em>Perfection.</em></h1>
+    <p>Premium boat detailing services that restore, protect, and maintain your investment. From personal watercraft to luxury yachts — we handle every vessel with expert care.</p>
+    <div class="hero-btns">
+      <a href="#quote" class="btn-primary">Get My Free Quote</a>
+      <a href="#about" class="btn-outline">Learn More</a>
+    </div>
+    <div class="hero-stats">
+      <div><span class="stat-val">Locally</span><span class="stat-label">Owned</span></div>
+      <div><span class="stat-val">Owner</span><span class="stat-label">Operated</span></div>
+      <div><span class="stat-val">100%</span><span class="stat-label">Guaranteed</span></div>
+    </div>
+  </div>
+</section>
+
+
+<!-- QUOTE -->
+<section id="quote">
+  <span class="section-label">Instant Estimate</span>
+  <h2 class="section-title">Smart Quote Calculator</h2>
+  <p class="section-sub">Get an accurate quote in seconds. Final pricing confirmed after a quick inspection.</p>
+
+  <div class="quote-wrap">
+    <div class="quote-info">
+      <h3>Transparent Pricing, No Surprises</h3>
+      <p>Our pricing is based on your vessel's size, type, current condition, and chosen services. Use the calculator to get a realistic estimate — we're always within 10% of the final invoice.</p>
+      <ul class="check-list">
+        <li>No hidden fees or surcharges</li>
+        <li>All products included in quoted price</li>
+        <li>We travel to your location (within service area)</li>
+        <li>100% satisfaction guarantee on all work</li>
+        <li>Photo documentation before and after</li>
+      </ul>
+    </div>
+
+    <div class="quote-card">
+      <div class="quote-card-header">
+        <div class="dot"></div>
+        <h3>Build Your Quote</h3>
+      </div>
+      <div class="quote-body">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Boat Type</label>
+            <select id="boatType" onchange="calcQuote()">
+              <optgroup label="── Open Boats">
+                <option value="0.9">Fishing Boat</option>
+                <option value="0.95">Bass Boat</option>
+                <option value="1.0" selected>Runabout / Bowrider</option>
+                <option value="1.0">Center Console</option>
+                <option value="1.05">Deck Boat</option>
+              </optgroup>
+              <optgroup label="── Pontoons">
+                <option value="1.1">Pontoon Boat</option>
+                <option value="1.2">Tritoon</option>
+              </optgroup>
+              <optgroup label="── Cabin &amp; Cruisers">
+                <option value="1.15">Walk-Around Cabin</option>
+                <option value="1.2">Sport Fisher</option>
+                <option value="1.25">Cabin Cruiser</option>
+                <option value="1.3">Express Cruiser</option>
+              </optgroup>
+              <optgroup label="── Sail">
+                <option value="1.2">Sailboat (Monohull)</option>
+                <option value="1.4">Catamaran / Sailboat (Multi)</option>
+              </optgroup>
+              <optgroup label="── Large Vessels">
+                <option value="1.5">Motor Yacht</option>
+                <option value="1.65">Houseboat</option>
+              </optgroup>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Boat Length</label>
+            <select id="boatLength" onchange="calcQuote()">
+              <option value="0.9">Under 16 ft</option>
+              <option value="1.0" selected>16 – 20 ft</option>
+              <option value="1.1">20 – 25 ft</option>
+              <option value="1.2">25 – 30 ft</option>
+              <option value="1.4">30 – 40 ft</option>
+              <option value="1.7">40 ft +</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Current Condition</label>
+          <select id="boatCondition" onchange="calcQuote()">
+            <option value="0.95">Excellent (light use)</option>
+            <option value="1.0" selected>Good (normal wear)</option>
+            <option value="1.15">Fair (some oxidation)</option>
+            <option value="1.3">Poor (heavy neglect)</option>
+          </select>
+        </div>
+
+        <div class="addons-section">
+          <span class="addons-label">Select Services</span>
+          <div class="addons-grid">
+            <label class="addon-item service-select-item" id="svc-wash">
+              <input type="checkbox" value="75" onchange="toggleAddon(this,'svc-wash');calcQuote()">
+              <span class="addon-name">Exterior Wash & Rinse</span>
+              <span class="addon-price">$75</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-polish">
+              <input type="checkbox" value="90" onchange="toggleAddon(this,'svc-polish');calcQuote()">
+              <span class="addon-name">Hull Polish & Wax</span>
+              <span class="addon-price">$90</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-oxidation">
+              <input type="checkbox" value="120" onchange="toggleAddon(this,'svc-oxidation');calcQuote()">
+              <span class="addon-name">Oxidation Removal</span>
+              <span class="addon-price">$120</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-gelcoat">
+              <input type="checkbox" value="100" onchange="toggleAddon(this,'svc-gelcoat');calcQuote()">
+              <span class="addon-name">Gel Coat Treatment</span>
+              <span class="addon-price">$100</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-interior">
+              <input type="checkbox" value="75" onchange="toggleAddon(this,'svc-interior');calcQuote()">
+              <span class="addon-name">Interior Vacuum & Wipe-down</span>
+              <span class="addon-price">$75</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-vinyl">
+              <input type="checkbox" value="90" onchange="toggleAddon(this,'svc-vinyl');calcQuote()">
+              <span class="addon-name">Vinyl & Upholstery Treatment</span>
+              <span class="addon-price">$90</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-carpet">
+              <input type="checkbox" value="70" onchange="toggleAddon(this,'svc-carpet');calcQuote()">
+              <span class="addon-name">Carpet Cleaning</span>
+              <span class="addon-price">$70</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-console">
+              <input type="checkbox" value="60" onchange="toggleAddon(this,'svc-console');calcQuote()">
+              <span class="addon-name">Console & Dash Polish</span>
+              <span class="addon-price">$60</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-engine">
+              <input type="checkbox" value="110" onchange="toggleAddon(this,'svc-engine');calcQuote()">
+              <span class="addon-name">Engine Bay Clean</span>
+              <span class="addon-price">$110</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-canvas">
+              <input type="checkbox" value="140" onchange="toggleAddon(this,'svc-canvas');calcQuote()">
+              <span class="addon-name">Canvas Treatment</span>
+              <span class="addon-price">$140</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-bilge">
+              <input type="checkbox" value="85" onchange="toggleAddon(this,'svc-bilge');calcQuote()">
+              <span class="addon-name">Bilge Cleaning</span>
+              <span class="addon-price">$85</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-chrome">
+              <input type="checkbox" value="65" onchange="toggleAddon(this,'svc-chrome');calcQuote()">
+              <span class="addon-name">Chrome Polishing</span>
+              <span class="addon-price">$65</span>
+            </label>
+            <label class="addon-item service-select-item" id="svc-teak">
+              <input type="checkbox" value="220" onchange="toggleAddon(this,'svc-teak');calcQuote()">
+              <span class="addon-name">Teak Restoration</span>
+              <span class="addon-price">$220</span>
+            </label>
+          </div>
+        </div>
+
+        <hr class="divider">
+
+        <div class="quote-result">
+          <div class="quote-result-row">
+            <span class="qr-label">Selected Services</span>
+            <span class="qr-val" id="qr-base">$0</span>
+          </div>
+          <div class="quote-result-row">
+            <span class="qr-label">Boat Type Factor</span>
+            <span class="qr-val" id="qr-type">×1.00</span>
+          </div>
+          <div class="quote-result-row">
+            <span class="qr-label">Size Adjustment</span>
+            <span class="qr-val" id="qr-size">×1.00</span>
+          </div>
+          <div class="quote-result-row">
+            <span class="qr-label">Condition Factor</span>
+            <span class="qr-val" id="qr-cond">×1.00</span>
+          </div>
+          <hr class="qr-divider">
+          <div class="quote-result-row">
+            <span class="qr-total-label">Estimated Total</span>
+            <span class="qr-total-val" id="qr-total">$0</span>
+          </div>
+          <p class="quote-note">* Estimate only. Final price confirmed on-site. Taxes not included.</p>
+        </div>
+
+        <div class="form-group" style="margin-top:16px">
+          <label>Your Name</label>
+          <input type="text" id="clientName" placeholder="John Smith">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="clientEmail" placeholder="john@email.com">
+          </div>
+          <div class="form-group">
+            <label>Phone (optional)</label>
+            <input type="tel" id="clientPhone" placeholder="(604) 555-0100">
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Additional Notes</label>
+          <textarea id="clientNotes" placeholder="Anything we should know — boat name, marina location, specific concerns, areas of focus, current condition details..."></textarea>
+        </div>
+        <button class="quote-submit" onclick="submitQuote()">📩 Send My Quote Request</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-img-wrap">
+    <img src="https://images.unsplash.com/photo-1520342868574-5fa3804e551c?w=700&q=80" alt="Professional boat detailing">
+    <div class="about-badge-float">
+      <span class="big">A+</span>
+      <small>BBB Rated</small>
+    </div>
+  </div>
+  <div class="about-content">
+    <span class="section-label">Who We Are</span>
+    <h2 class="section-title">Marine Care You Can Trust</h2>
+    <p class="section-sub">Harbour &amp; Hull was founded by two brothers. We started this business because we believe every boat owner deserves access to expert-level detailing done right, at a fair price, and because we genuinely love the water. Every job we take on is treated like it's our own boat: with patience, proper products, and real pride in the result.</p>
+    <ul class="check-list" style="margin-top:24px">
+      <li>Eco-friendly, biodegradable cleaning products</li>
+      <li>Mobile service — we come to your location</li>
+      <li>Proudly serving British Columbia</li>
+      <li>No job too big, no vessel too pristine</li>
+    </ul>
+    <br>
+    <a href="#contact" class="btn-primary" style="margin-top:8px">Get in Touch</a>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials">
+  <div class="testimonials-header">
+    <span class="section-label">Client Reviews</span>
+    <h2 class="section-title">What Boat Owners Say</h2>
+  </div>
+  <div class="testimonials-grid">
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>They completely transformed my 28-foot Chaparral. It had years of oxidation and looked terrible — after the Full Restoration Detail, it looks better than it did when I bought it new. Absolute wizards.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">DR</div>
+        <div>
+          <div class="author-name">David R.</div>
+          <div class="author-boat">2019 Chaparral 280 OSX</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>I've used three different detailing services over the years. Harbour &amp; Hull is on another level. Prompt, professional, and the attention to detail on my pontoon was incredible. Won't use anyone else.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">KL</div>
+        <div>
+          <div class="author-name">Karen L.</div>
+          <div class="author-boat">2021 Bennington 25 RSRX</div>
+        </div>
+      </div>
+    </div>
+    <div class="testimonial-card">
+      <div class="stars">★★★★★</div>
+      <p>The ceramic coating they applied to my sailboat has been phenomenal. 18 months later it still beads water perfectly. Best marine investment I've made outside of the boat itself.</p>
+      <div class="testimonial-author">
+        <div class="author-avatar">MT</div>
+        <div>
+          <div class="author-name">Marcus T.</div>
+          <div class="author-boat">2018 Catalina 375</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <span class="section-label">Get in Touch</span>
+  <h2 class="section-title">Ready to Book?</h2>
+  <p class="section-sub">Reach out via the form or phone. We respond to all inquiries within 2 business hours.</p>
+  <div class="contact-grid">
+    <div>
+      <div class="contact-info-item">
+        <div class="ci-icon">📞</div>
+        <div>
+          <div class="ci-label">Phone</div>
+          <div class="ci-val">(604) 905 9332</div>
+        </div>
+      </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="ci-icon">📍</div>
+        <div>
+          <div class="ci-label">Service Area</div>
+          <div class="ci-val">British Columbia</div>
+        </div>
+      </div>
+      <div class="contact-info-item">
+        <div class="ci-icon">🕐</div>
+        <div>
+          <div class="ci-label">Hours</div>
+          <div class="ci-val">Mon – Sat: 7:00 AM – 6:00 PM<br>Sunday: By Appointment</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label>First Name</label>
+          <input type="text" placeholder="John">
+        </div>
+        <div class="form-group">
+          <label>Last Name</label>
+          <input type="text" placeholder="Smith">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" placeholder="john@email.com">
+      </div>
+      <div class="form-group">
+        <label>Service Interest</label>
+        <select>
+          <option>Wash & Rinse</option>
+          <option selected>Exterior Detail</option>
+          <option>Full Interior & Exterior Detail</option>
+          <option>Custom / Not sure yet — need advice</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Message</label>
+        <textarea placeholder="Tell us about your vessel and what you're looking for..."></textarea>
+      </div>
+      <button class="quote-submit" onclick="submitContact()">Send Message →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">Harbour &amp; Hull Marine Detailing</div>
+  <p>© 2025 Harbour &amp; Hull Marine Detailing. All rights reserved.</p>
+  <p style="color:rgba(255,255,255,0.2)">Built with ❤ for clean boats.</p>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="quoteModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeModal()">×</button>
+    <div class="modal-icon">🎉</div>
+    <h3>Quote Request Sent!</h3>
+    <p>Thanks, <strong id="modal-name">there</strong>! Here's your estimate summary. We'll reach out within 2 hours to confirm your booking.</p>
+    <div class="modal-quote-box" id="modal-summary"></div>
+    <button class="btn-primary" style="width:100%;text-align:center" onclick="closeModal()">Perfect, I'll Wait to Hear From You</button>
+  </div>
+</div>
+
+<div class="modal-overlay" id="contactModal">
+  <div class="modal">
+    <button class="modal-close" onclick="closeContactModal()">×</button>
+    <div class="modal-icon">✅</div>
+    <h3>Message Received!</h3>
+    <p>Thank you for reaching out. A member of our team will respond within 2 business hours.</p>
+    <button class="btn-primary" style="width:100%;text-align:center" onclick="closeContactModal()">Sounds Good!</button>
+  </div>
+</div>
+
+<script>
+  function toggleNav() {
+    document.getElementById('navLinks').classList.toggle('open');
+  }
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.addEventListener('click', () => document.getElementById('navLinks').classList.remove('open'));
+  });
+
+  function toggleAddon(cb, id) {
+    document.getElementById(id).classList.toggle('selected', cb.checked);
+  }
+
+  function calcQuote() {
+    const type = parseFloat(document.getElementById('boatType').value);
+    const size = parseFloat(document.getElementById('boatLength').value);
+    const cond = parseFloat(document.getElementById('boatCondition').value);
+
+    let servicesTotal = 0;
+    document.querySelectorAll('.service-select-item input[type="checkbox"]:checked').forEach(cb => {
+      servicesTotal += parseFloat(cb.value);
+    });
+
+    const total = Math.round(servicesTotal * type * size * cond);
+
+    document.getElementById('qr-base').textContent  = servicesTotal > 0 ? '$' + servicesTotal.toLocaleString() : '$0';
+    document.getElementById('qr-type').textContent  = '×' + type.toFixed(2);
+    document.getElementById('qr-size').textContent  = '×' + size.toFixed(2);
+    document.getElementById('qr-cond').textContent  = '×' + cond.toFixed(2);
+    document.getElementById('qr-total').textContent = '$' + total.toLocaleString();
+  }
+
+  function submitQuote() {
+    const name  = document.getElementById('clientName').value.trim();
+    const email = document.getElementById('clientEmail').value.trim();
+    if (!name)  { alert('Please enter your name.'); return; }
+    if (!email) { alert('Please enter your email.'); return; }
+
+    const len  = document.getElementById('boatLength');
+    const cond = document.getElementById('boatCondition');
+    const type = document.getElementById('boatType');
+    const total = document.getElementById('qr-total').textContent;
+
+    const servicesChosen = [];
+    document.querySelectorAll('.service-select-item input[type="checkbox"]:checked').forEach(cb => {
+      servicesChosen.push(cb.closest('.service-select-item').querySelector('.addon-name').textContent);
+    });
+
+    if (servicesChosen.length === 0) { alert('Please select at least one service.'); return; }
+
+    document.getElementById('modal-name').textContent = name;
+    const notes = document.getElementById('clientNotes').value.trim();
+    const summaryEl = document.getElementById('modal-summary');
+    summaryEl.innerHTML = `
+      <div class="mq-row"><span style="color:var(--text-mid)">Boat Type</span><span>${type.options[type.selectedIndex].text}</span></div>
+      <div class="mq-row"><span style="color:var(--text-mid)">Length</span><span>${len.options[len.selectedIndex].text}</span></div>
+      <div class="mq-row"><span style="color:var(--text-mid)">Condition</span><span>${cond.options[cond.selectedIndex].text}</span></div>
+      <div class="mq-row"><span style="color:var(--text-mid)">Services</span><span style="text-align:right;max-width:55%">${servicesChosen.join(', ')}</span></div>
+      ${notes ? `<div class="mq-row"><span style="color:var(--text-mid)">Notes</span><span style="text-align:right;max-width:55%;font-style:italic">${notes}</span></div>` : ''}
+      <div class="mq-row mq-total"><span>Estimated Total</span><span class="mq-gold">${total}</span></div>
+    `;
+    document.getElementById('quoteModal').classList.add('active');
+  }
+
+  function submitContact() {
+    document.getElementById('contactModal').classList.add('active');
+  }
+
+  function closeModal() { document.getElementById('quoteModal').classList.remove('active'); }
+  function closeContactModal() { document.getElementById('contactModal').classList.remove('active'); }
+
+  document.getElementById('quoteModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+  });
+  document.getElementById('contactModal').addEventListener('click', function(e) {
+    if (e.target === this) closeContactModal();
+  });
+
+  calcQuote();
+</script>
+</body>
+</html>
