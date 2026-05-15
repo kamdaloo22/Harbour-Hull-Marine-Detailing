@@ -1141,11 +1141,10 @@
 <div class="modal-overlay" id="quoteModal">
   <div class="modal">
     <button class="modal-close" onclick="closeModal()">×</button>
-    <div class="modal-icon">🎉</div>
+    <div class="modal-icon">✅</div>
     <h3>Quote Request Sent!</h3>
-    <p>Thanks, <strong id="modal-name">there</strong>! Here's your estimate summary. We'll reach out within 2 hours to confirm your booking.</p>
-    <div class="modal-quote-box" id="modal-summary"></div>
-    <button class="btn-primary" style="width:100%;text-align:center" onclick="closeModal()">Perfect, I'll Wait to Hear From You</button>
+    <p>Thanks, <strong id="modal-name">there</strong>! We've received your request and will be in touch very soon to confirm the details.</p>
+    <button class="btn-primary" style="width:100%;text-align:center" onclick="closeModal()">Got It</button>
   </div>
 </div>
 
@@ -1319,19 +1318,26 @@
       });
       if (!res.ok) throw new Error('Form submission failed');
 
-      // Populate and show success modal
+      // Show simple success modal
       document.getElementById('modal-name').textContent = name;
-      const summaryEl = document.getElementById('modal-summary');
-      summaryEl.innerHTML = `
-        <div class="mq-row"><span style="color:var(--text-mid)">Boat Type</span><span>${payload.boatType}</span></div>
-        <div class="mq-row"><span style="color:var(--text-mid)">Length</span><span>${payload.boatLength}</span></div>
-        <div class="mq-row"><span style="color:var(--text-mid)">Condition</span><span>${payload.boatCondition}</span></div>
-        <div class="mq-row"><span style="color:var(--text-mid)">Package</span><span>${packageName}</span></div>
-        <div class="mq-row"><span style="color:var(--text-mid)">Services</span><span style="text-align:right;max-width:55%">${servicesChosen.join(', ')}</span></div>
-        ${notes ? `<div class="mq-row"><span style="color:var(--text-mid)">Notes</span><span style="text-align:right;max-width:55%;font-style:italic">${notes}</span></div>` : ''}
-        <div class="mq-row mq-total"><span>Estimated Total</span><span class="mq-gold">${total}</span></div>
-      `;
       document.getElementById('quoteModal').classList.add('active');
+
+      // Reset the entire quote form to a fresh state
+      document.getElementById('clientName').value = '';
+      document.getElementById('clientEmail').value = '';
+      document.getElementById('clientPhone').value = '';
+      document.getElementById('clientNotes').value = '';
+      document.getElementById('boatType').selectedIndex = 0;
+      document.getElementById('boatLength').selectedIndex = 0;
+      document.getElementById('boatCondition').selectedIndex = 0;
+
+      // Clear all selected services and package highlights
+      document.querySelectorAll('.service-select-item input[type="checkbox"]').forEach(cb => {
+        cb.checked = false;
+        cb.closest('.service-select-item').classList.remove('selected');
+      });
+      document.querySelectorAll('.package-card').forEach(p => p.classList.remove('active'));
+      activePackageDiscount = 0;
     } catch (err) {
       alert('Sorry, something went wrong sending your request. Please try again or call us directly at (604) 905-9332.');
     } finally {
