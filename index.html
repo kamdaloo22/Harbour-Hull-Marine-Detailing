@@ -95,7 +95,7 @@
   #hero::after {
     content: '';
     position: absolute; bottom: 0; left: 0; right: 0;
-    height: 120px;
+    height: 60px;
     background: linear-gradient(to bottom, transparent, var(--cream));
   }
   .hero-content { max-width: 680px; padding-top: 80px; position: relative; z-index: 1; }
@@ -162,7 +162,9 @@
     margin-top: 60px;
     display: flex; gap: 40px;
     padding-top: 30px;
-    border-top: 1px solid rgba(255,255,255,0.12);
+    border-top: 1px solid rgba(255,255,255,0.18);
+    position: relative;
+    z-index: 2;
   }
   .stat-val {
     font-family: 'Playfair Display', serif;
@@ -170,14 +172,14 @@
     color: var(--gold);
     display: block;
     font-weight: 700;
-    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
+    text-shadow: 0 1px 4px rgba(0,0,0,0.5);
   }
   .stat-label {
     font-size: 0.8rem;
-    color: rgba(255,255,255,0.92);
+    color: rgba(255,255,255,0.95);
     letter-spacing: 0.08em;
     text-transform: uppercase;
-    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    text-shadow: 0 1px 3px rgba(0,0,0,0.4);
     display: block;
   }
 
