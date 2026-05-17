@@ -169,8 +169,17 @@
     font-size: 2rem;
     color: var(--gold);
     display: block;
+    font-weight: 700;
+    text-shadow: 0 1px 8px rgba(0,0,0,0.6);
   }
-  .stat-label { font-size: 0.8rem; color: rgba(255,255,255,0.5); letter-spacing: 0.08em; text-transform: uppercase; }
+  .stat-label {
+    font-size: 0.8rem;
+    color: rgba(255,255,255,0.92);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: 0 1px 6px rgba(0,0,0,0.7);
+    display: block;
+  }
 
   /* ─── SECTIONS ─── */
   section { padding: var(--section-pad) 5vw; }
@@ -772,15 +781,8 @@
             </select>
           </div>
           <div class="form-group">
-            <label>Boat Length</label>
-            <select id="boatLength" onchange="calcQuote()">
-              <option value="0.9">Under 16 ft</option>
-              <option value="1.0" selected>16 – 20 ft</option>
-              <option value="1.1">20 – 25 ft</option>
-              <option value="1.2">25 – 30 ft</option>
-              <option value="1.4">30 – 40 ft</option>
-              <option value="1.7">40 ft +</option>
-            </select>
+            <label>Boat Size (feet)</label>
+            <input type="number" id="boatLength" min="8" max="120" placeholder="e.g. 28" oninput="calcQuote()" style="background-image:none">
           </div>
         </div>
 
@@ -1134,7 +1136,6 @@
 <footer>
   <div class="footer-logo">Harbour &amp; Hull Marine Detailing</div>
   <p>© 2025 Harbour &amp; Hull Marine Detailing. All rights reserved.</p>
-  <p style="color:rgba(255,255,255,0.2)">Built with ❤ for clean boats.</p>
 </footer>
 
 <!-- MODAL -->
@@ -1217,10 +1218,23 @@
     calcQuote();
   }
 
+  // Continuous size multiplier — matches original bracket midpoints exactly
+  function sizeMultiplier(feet) {
+    feet = Math.max(8, Math.min(120, feet));
+    if (feet < 16)  return Math.max(0.70, 0.9  - (16 - feet) * 0.017);
+    if (feet <= 20) return 0.9  + (feet - 16) * 0.025;  // 0.90 → 1.00
+    if (feet <= 25) return 1.0  + (feet - 20) * 0.020;  // 1.00 → 1.10
+    if (feet <= 30) return 1.1  + (feet - 25) * 0.020;  // 1.10 → 1.20
+    if (feet <= 40) return 1.2  + (feet - 30) * 0.020;  // 1.20 → 1.40
+    return Math.min(3.0, 1.4   + (feet - 40) * 0.030);  // 1.40 → 1.70 @ 50ft, keeps scaling
+  }
+
   function calcQuote() {
-    const type = parseFloat(document.getElementById('boatType').value);
-    const size = parseFloat(document.getElementById('boatLength').value);
-    const cond = parseFloat(document.getElementById('boatCondition').value);
+    const type   = parseFloat(document.getElementById('boatType').value);
+    const cond   = parseFloat(document.getElementById('boatCondition').value);
+    const feetRaw = document.getElementById('boatLength').value;
+    const feet   = feetRaw !== '' ? parseFloat(feetRaw) : null;
+    const size   = feet !== null ? sizeMultiplier(feet) : null;
 
     const checkedServices = document.querySelectorAll('.service-select-item input[type="checkbox"]:checked');
     const serviceCount = checkedServices.length;
@@ -1228,34 +1242,27 @@
     let servicesTotal = 0;
     checkedServices.forEach(cb => { servicesTotal += parseFloat(cb.value); });
 
+    const ready = serviceCount >= 3 && size !== null;
+
     const notice = document.getElementById('min-services-notice');
     const submitBtn = document.querySelector('.quote-submit');
     const quoteResult = document.querySelector('.quote-result');
 
-    if (serviceCount < 3) {
-      notice.style.display = 'block';
-      quoteResult.style.opacity = '';
-      quoteResult.style.pointerEvents = '';
-      submitBtn.disabled = true;
-    } else {
-      notice.style.display = 'none';
-      quoteResult.style.opacity = '';
-      quoteResult.style.pointerEvents = '';
-      submitBtn.disabled = false;
-    }
+    notice.style.display = serviceCount < 3 ? 'block' : 'none';
+    submitBtn.disabled = !ready;
 
-    const subtotal = servicesTotal * type * size * cond;
+    const subtotal = ready ? servicesTotal * type * size * cond : 0;
     const discountMult = 1 - (activePackageDiscount / 100);
     const total = Math.round(subtotal * discountMult);
 
     document.getElementById('qr-base').textContent  = serviceCount > 0 ? '$' + servicesTotal.toLocaleString() : '—';
-    document.getElementById('qr-type').textContent  = serviceCount >= 3 ? '×' + type.toFixed(2) : '—';
-    document.getElementById('qr-size').textContent  = serviceCount >= 3 ? '×' + size.toFixed(2) : '—';
-    document.getElementById('qr-cond').textContent  = serviceCount >= 3 ? '×' + cond.toFixed(2) : '—';
-    document.getElementById('qr-total').textContent = serviceCount >= 3 ? '$' + total.toLocaleString() : '—';
+    document.getElementById('qr-type').textContent  = ready ? '×' + type.toFixed(2) : '—';
+    document.getElementById('qr-size').textContent  = ready ? '×' + size.toFixed(2) + ' (' + feet + ' ft)' : '—';
+    document.getElementById('qr-cond').textContent  = ready ? '×' + cond.toFixed(2) : '—';
+    document.getElementById('qr-total').textContent = ready ? '$' + total.toLocaleString() : '—';
 
     const discountRow = document.getElementById('qr-discount-row');
-    if (activePackageDiscount > 0 && serviceCount >= 3) {
+    if (activePackageDiscount > 0 && ready) {
       discountRow.style.display = 'flex';
       document.getElementById('qr-discount').textContent = '−' + activePackageDiscount + '%';
     } else {
@@ -1273,7 +1280,10 @@
     if (!email) { alert('Please enter your email.'); return; }
     if (!phone) { alert('Please enter your phone number.'); return; }
 
-    const len  = document.getElementById('boatLength');
+    const feetVal = document.getElementById('boatLength').value;
+    const feet    = feetVal !== '' ? parseFloat(feetVal) : null;
+    if (!feet || feet < 8 || feet > 120) { alert('Please enter a valid boat size between 8 and 120 feet.'); return; }
+
     const cond = document.getElementById('boatCondition');
     const type = document.getElementById('boatType');
     const total = document.getElementById('qr-total').textContent;
@@ -1297,7 +1307,7 @@
       email: email,
       phone: phone,
       boatType: type.options[type.selectedIndex].text,
-      boatLength: len.options[len.selectedIndex].text,
+      boatLength: feet + ' ft',
       boatCondition: cond.options[cond.selectedIndex].text,
       package: packageName,
       services: servicesChosen.join(', '),
@@ -1328,7 +1338,7 @@
       document.getElementById('clientPhone').value = '';
       document.getElementById('clientNotes').value = '';
       document.getElementById('boatType').selectedIndex = 0;
-      document.getElementById('boatLength').selectedIndex = 0;
+      document.getElementById('boatLength').value = '';
       document.getElementById('boatCondition').selectedIndex = 0;
 
       // Clear all selected services and package highlights
