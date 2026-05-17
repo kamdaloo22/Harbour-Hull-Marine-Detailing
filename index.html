@@ -784,7 +784,7 @@
           </div>
           <div class="form-group">
             <label>Boat Size (feet)</label>
-            <input type="number" id="boatLength" min="8" max="120" placeholder="e.g. 28" oninput="calcQuote()" style="background-image:none">
+            <input type="number" id="boatLength" min="8" max="100" placeholder="e.g. 28" oninput="calcQuote()" style="background-image:none">
           </div>
         </div>
 
@@ -1220,15 +1220,15 @@
     calcQuote();
   }
 
-  // Continuous size multiplier — matches original bracket midpoints exactly
+  // Size multiplier — steeper curve for larger boats, hard cap at 100 ft
   function sizeMultiplier(feet) {
-    feet = Math.max(8, Math.min(120, feet));
-    if (feet < 16)  return Math.max(0.70, 0.9  - (16 - feet) * 0.017);
-    if (feet <= 20) return 0.9  + (feet - 16) * 0.025;  // 0.90 → 1.00
-    if (feet <= 25) return 1.0  + (feet - 20) * 0.020;  // 1.00 → 1.10
-    if (feet <= 30) return 1.1  + (feet - 25) * 0.020;  // 1.10 → 1.20
-    if (feet <= 40) return 1.2  + (feet - 30) * 0.020;  // 1.20 → 1.40
-    return Math.min(3.0, 1.4   + (feet - 40) * 0.030);  // 1.40 → 1.70 @ 50ft, keeps scaling
+    feet = Math.max(8, Math.min(100, feet));
+    if (feet <= 16) return 0.85;
+    if (feet <= 20) return 0.85 + (feet - 16) * 0.0375; // 0.85 → 1.00
+    if (feet <= 30) return 1.00 + (feet - 20) * 0.040;  // 1.00 → 1.40
+    if (feet <= 50) return 1.40 + (feet - 30) * 0.040;  // 1.40 → 2.20
+    if (feet <= 75) return 2.20 + (feet - 50) * 0.040;  // 2.20 → 3.20
+    return               3.20 + (feet - 75) * 0.052;    // 3.20 → 4.50 @ 100 ft
   }
 
   function calcQuote() {
@@ -1284,7 +1284,7 @@
 
     const feetVal = document.getElementById('boatLength').value;
     const feet    = feetVal !== '' ? parseFloat(feetVal) : null;
-    if (!feet || feet < 8 || feet > 120) { alert('Please enter a valid boat size between 8 and 120 feet.'); return; }
+    if (!feet || feet < 8 || feet > 100) { alert('Please enter a valid boat size between 8 and 100 feet.'); return; }
 
     const cond = document.getElementById('boatCondition');
     const type = document.getElementById('boatType');
